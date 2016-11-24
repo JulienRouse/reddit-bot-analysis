@@ -17,4 +17,4 @@ TODO
   - ?
 
 - presentation
-  - build infographique from the results of analysis
+  - build infographics from the results of analysis
