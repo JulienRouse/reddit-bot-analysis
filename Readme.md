@@ -1,6 +1,8 @@
 Work in progress (come back later)
 
 
+[Documentation](http://reddit-bot-analysis.readthedocs.io/en/latest/)
+
 Use Python3 + praw + nltk.
 
 Done
