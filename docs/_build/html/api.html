@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API &#8212; reddit-bot-analysis 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="reddit-bot-analysis 0.2.0 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to reddit-bot-analysis’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<p>Below is the documentation found in the sources.</p>
+<span class="target" id="module-karma_breakdown"></span><p>A reddit bot for various analysis</p>
+<dl class="function">
+<dt id="karma_breakdown.clean_comment">
+<code class="descclassname">karma_breakdown.</code><code class="descname">clean_comment</code><span class="sig-paren">(</span><em>comment</em>, <em>stopwords=None</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.clean_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tokenize the string comment and remove various words in the stopwords list.
+Notably remove punctuation, numbers in the string, url,
+and various little french and english words.</p>
+<p>To get thoses words, see french_stopwords in Model.py</p>
+<p>The goal is to get a list of words that can be used for sentiment analysis.
+Args:</p>
+<blockquote>
+<div>comment (str): A string to be cleaned.
+stopwords (<code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal"><span class="pre">str</span></code>, optional): A list of string to
+remove from the comment.</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal"><span class="pre">str</span></code>: List of clean words.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.create_mask">
+<code class="descclassname">karma_breakdown.</code><code class="descname">create_mask</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.create_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a mask from an image
+Idea comes from <a class="reference external" href="https://github.com/amueller/word_cloud/blob/master/examples/masked.py">https://github.com/amueller/word_cloud/blob/master/examples/masked.py</a></p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>filename (str or None): The name of the file to create a mask with.</dt>
+<dd>If None, returns None</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">np.array</span></code> or None: An array defining the shape of the image.</dt>
+<dd>Or None is filename=None.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.extract_comment">
+<code class="descclassname">karma_breakdown.</code><code class="descname">extract_comment</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.extract_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a dict of Post and returns the concatenation of all the comment
+of the Posts cleaned into a string</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>data (<code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>): The data to extract comment from.</dt>
+<dd>The key/value pair is of type str/:obj:Post.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>str: A text composed of all the clean comment gathered in data.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.generate_wordcloud">
+<code class="descclassname">karma_breakdown.</code><code class="descname">generate_wordcloud</code><span class="sig-paren">(</span><em>text</em>, <em>background_color='white'</em>, <em>mask=None</em>, <em>max_words=500</em>, <em>savefilename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.generate_wordcloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and save a wordcloud.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">text (str): A text to makes a wordcloud from.
+background_color (str, optional): The string represents known color to matplolib.</p>
+<blockquote>
+<div>Define the background color of the wordcloud.
+Default is &#8220;white&#8221;.</div></blockquote>
+<dl class="last docutils">
+<dt>mask (str or None, optional): The name of the file to create the mask</dt>
+<dd>to apply to the wordcloud if you want it to not be a rectangle or None for no mask.
+Default is None.</dd>
+<dt>max_words (int, optional): Maximum of words to consider when creating</dt>
+<dd>the wordcloud from the text.
+Default is 500.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.load_counter">
+<code class="descclassname">karma_breakdown.</code><code class="descname">load_counter</code><span class="sig-paren">(</span><em>filename='counter2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.load_counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unshelve a counter from filename and returns it.
+Returns an empty counter if filename doesnt exist.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>filename (str, optional): The name of the file to retrieve data from.</dt>
+<dd>Default is &#8220;counter&#8221; + today_str().
+today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dd>
+<dt>dirname (str, optional): The name of the dir to retrieve data from.</dt>
+<dd>Default is &#8220;save&#8221;</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="xref py py-obj docutils literal"><span class="pre">Counter</span></code>: The counter object retrieved from filename or an empty counter.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.load_data">
+<code class="descclassname">karma_breakdown.</code><code class="descname">load_data</code><span class="sig-paren">(</span><em>filename='posts2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.load_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unshelve a dict from filename.
+The dict contains data about Post objects retrieved from reddit.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>filename (str, optional): The name of the file to retrieve the data from.</dt>
+<dd>Default is &#8220;posts&#8221; + today_str().
+today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dd>
+<dt>dirname (str, optional): The name of the dir to retrieve the data from.</dt>
+<dd>Default is &#8220;save&#8221;</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>:</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.save_counter">
+<code class="descclassname">karma_breakdown.</code><code class="descname">save_counter</code><span class="sig-paren">(</span><em>data</em>, <em>filename='counter2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.save_counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shelve data into filename.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">data (<code class="xref py py-obj docutils literal"><span class="pre">Counter</span></code>): A counter object to shelve.
+filename (str, optional): The name of the file where to shelve data to.</p>
+<blockquote class="last">
+<div>Default is &#8220;counter&#8221;.</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>2            today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dt>
+<dd><blockquote class="first">
+<div><dl class="docutils">
+<dt>dirname (str, optional): The name of the dir where to shelve data to.</dt>
+<dd>Default is &#8220;save&#8221;</dd>
+</dl>
+</div></blockquote>
+<dl class="last docutils">
+<dt>Returns:</dt>
+<dd>None</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.save_data">
+<code class="descclassname">karma_breakdown.</code><code class="descname">save_data</code><span class="sig-paren">(</span><em>data</em>, <em>filename='posts2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.save_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shelve data to filename</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>data (<code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>): The dict to be shelved.</dt>
+<dd>Keys are id(str) of posts objects, values are
+posts objects</dd>
+<dt>filename (str, optional): The name of the file where to sheve data to.</dt>
+<dd>Default is &#8220;posts&#8221; + today_str().
+today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dd>
+<dt>dirname (str, optional): The name of the dire where to whelve data to.</dt>
+<dd>Default is &#8220;save&#8221;</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.save_wordcloud">
+<code class="descclassname">karma_breakdown.</code><code class="descname">save_wordcloud</code><span class="sig-paren">(</span><em>wordcloud</em>, <em>filename='wordcloud.jpg'</em>, <em>dirname='wordcloud'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.save_wordcloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a plot with wordcloud and save it in dirname/filename
+Also creates dirname if not found.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first">wordcloud (<code class="xref py py-obj docutils literal"><span class="pre">WordCloud</span></code>): A WordCloud object. See module wordcloud.
+filename (str, optional): The name to save the file to.</p>
+<blockquote>
+<div>Default is &#8220;wordcloud.jpg&#8221;.</div></blockquote>
+<dl class="last docutils">
+<dt>dirname (str, optional): The name of the dir to save the file to.</dt>
+<dd>Default is &#8220;wordcloud&#8221;.</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Side-effects:</dt>
+<dd>Creates a file, and if dirname did not exist, creates dirname.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.search_reddit">
+<code class="descclassname">karma_breakdown.</code><code class="descname">search_reddit</code><span class="sig-paren">(</span><em>subreddit='france'</em>, <em>limit=100</em>, <em>category=1</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.search_reddit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to reddit and gather posts from a subreddit.
+Note:</p>
+<blockquote>
+<div>Can be quite long (few minutes to run with limit=100) so cache it with save_data.</div></blockquote>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>subreddit (str, optional): A string that designate an existing subreddit.</dt>
+<dd>Default is &#8220;france&#8221;.</dd>
+<dt>limit (int, optional): Number of reddit posts to retrieve.</dt>
+<dd>Default is 100.</dd>
+<dt>category (int, optional): Either HOT or TOP. Those constants are defined in model.py.</dt>
+<dd>They determine if you gather post from the TOP (best posts ever)
+or HOT (newest posts) category.
+Default is HOT</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt><code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>: Return a dict of posts gathered. With key being the id of the post and value</dt>
+<dd>being the posts themselves.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.show_wordcloud">
+<code class="descclassname">karma_breakdown.</code><code class="descname">show_wordcloud</code><span class="sig-paren">(</span><em>wordcloud</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.show_wordcloud" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a plot with wordcloud and displays it.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>wordcloud (<code class="xref py py-obj docutils literal"><span class="pre">WordCloud</span></code>): A WordCloud object. See module wordcloud.</dd>
+<dt>Returns:</dt>
+<dd>None</dd>
+<dt>Side-effects:</dt>
+<dd>Displays a plot.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.today_str">
+<code class="descclassname">karma_breakdown.</code><code class="descname">today_str</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.today_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>The date of today in isoformat</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="karma_breakdown.words_count_update">
+<code class="descclassname">karma_breakdown.</code><code class="descname">words_count_update</code><span class="sig-paren">(</span><em>comment</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.words_count_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a clean comment and count words.
+It adds up to previous count.
+Also updates the shelve/pickle with the new count.
+Args:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>comment (list): A clean list of words.</dt>
+<dd>See the function clean_comment.</dd>
+</dl>
+</div></blockquote>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>Counter: A counter object, retrived with the function load_counter and</dt>
+<dd>updated with comment.</dd>
+</dl>
+</dd>
+</dl>
+<p>See the functions clean_comment, load_counter and save_couter.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to reddit-bot-analysis&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, JulienRouse.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
