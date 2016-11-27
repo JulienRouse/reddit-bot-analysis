@@ -109,7 +109,6 @@ def clean_comment(comment, stopwords=None):
 
     Args:
         comment (:obj:`str`): A string to be cleaned.
-
         stopwords (:obj:`list` of :obj:`str`, optional): A list of string to
         remove from the comment.
 
@@ -136,12 +135,15 @@ def words_count_update(comment):
     Also updates the shelve/pickle with the new count.
 
     Args:
-        comment (list): A clean list of words.
+        comment (:obj:`list`): A clean list of words.
             See the function clean_comment.
     Returns:
-        Counter: A counter object, retrived with the function load_counter and
-            updated with comment.
-    See the functions clean_comment, load_counter and save_couter.
+        :obj:`Counter`: A counter object, retrived with the function load_counter and
+        updated with comment.
+    See also:
+        clean_comment
+        load_counter
+        save_counter
     """
     counter_words = load_counter()
     counter_words.update(comment)
@@ -151,20 +153,23 @@ def words_count_update(comment):
 
 def search_reddit(subreddit="france", limit=100, category=HOT):
     """ Connect to reddit and gather posts from a subreddit.
+
     Note:
         Can be quite long (few minutes to run with limit=100) so cache it with save_data.
+
     Args:
         subreddit (:obj:`str`, optional): A string that designate an existing subreddit.
             Default is "france".
-        limit (int, optional): Number of reddit posts to retrieve.
+        limit (:obj:`int`, optional): Number of reddit posts to retrieve.
             Default is 100.
-        category (int, optional): Either HOT or TOP. Those constants are defined in model.py.
+        category (:obj:`int`, optional): Either HOT or TOP. Those constants are defined in model.py.
             They determine if you gather post from the TOP (best posts ever)
             or HOT (newest posts) category.
-            Default is HOT
+            Default is HOT.
+
     Returns:
         :obj:`dict`: Return a dict of posts gathered. With key being the id of the post and value
-            being the posts themselves.
+        being the posts themselves.
     """
     user_agent = "Natural Language Processing:v0.1.0 (by /u/lughaidhdev)"
     reddit = praw.Reddit(user_agent=user_agent)
@@ -239,7 +244,7 @@ def create_mask(filename):
 
     Returns:
         :obj:`np.array` or None: An array defining the shape of the image.
-            Or None is filename=None.
+        Or None is filename=None.
     """
     if filename is None:
         return None
@@ -292,7 +297,7 @@ def generate_wordcloud(text, background_color="white", mask=None, max_words=500,
         mask (:obj:`str` or None, optional): The name of the file to create the mask
             to apply to the wordcloud if you want it to not be a rectangle or None for no mask.
             Default is None.
-        max_words (int, optional): Maximum of words to consider when creating
+        max_words (:obj:`int`, optional): Maximum of words to consider when creating
             the wordcloud from the text.
             Default is 500.
 
