@@ -1,4 +1,3 @@
-sphinxcontrib-napoleon
 Babel==2.3.4
 Jinja2==2.8
 MarkupSafe==0.23
