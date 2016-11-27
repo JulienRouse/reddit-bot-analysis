@@ -1,7 +1,7 @@
 """ Defines constants and namedtuple definitions"""
 from collections import namedtuple
 
-from nltk.corpus import stopwords
+#from nltk.corpus import stopwords
 
 #Enum for category
 TOP = 0
@@ -44,6 +44,6 @@ REDDIT = ["r", "u", "v", '",', "~", "~~", '".', "**", "¤"]
 REMOVE_LIST = FR + EN + URL + REDDIT
 """ :obj:`list` of :obj:`str`: The combination of every other stopwords lists"""
 
-MY_STOPWORDS = set(stopwords.words('french'))
+MY_STOPWORDS = set("")#stopwords.words('french'))
 """ :obj:`set` of :obj:`str`: Stopwords in a set."""
 MY_STOPWORDS.update(REMOVE_LIST)
