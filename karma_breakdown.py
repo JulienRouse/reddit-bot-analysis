@@ -20,7 +20,7 @@ from model import Post, Comment, Score, MY_STOPWORDS, HOT, TOP
 
 ###############CODE############################################################
 def today_str():
-    """ The date of today in isoformat"""
+    """ The date of today in isoformat. i.e. '2016-11-26'"""
     return date.today().isoformat()
 
 def load_counter(filename="counter" + today_str(), dirname="save"):
@@ -48,7 +48,7 @@ def save_counter(data, filename="counter" + today_str(), dirname="save"):
         data (:obj:`Counter`): A counter object to shelve.
         filename (str, optional): The name of the file where to shelve data to.
             Default is "counter".
-2            today_str returns the date of today with the isoformat. i.e. "2016-11-22"
+            today_str returns the date of today with the isoformat. i.e. "2016-11-22"
         dirname (str, optional): The name of the dir where to shelve data to.
             Default is "save"
 
@@ -106,10 +106,12 @@ def clean_comment(comment, stopwords=None):
     To get thoses words, see french_stopwords in Model.py
 
     The goal is to get a list of words that can be used for sentiment analysis.
+
     Args:
         comment (str): A string to be cleaned.
         stopwords (:obj:`list` of :obj:`str`, optional): A list of string to
         remove from the comment.
+
     Returns:
         :obj:`list` of :obj:`str`: List of clean words.
     """
@@ -131,6 +133,7 @@ def words_count_update(comment):
     """ Takes a clean comment and count words.
     It adds up to previous count.
     Also updates the shelve/pickle with the new count.
+
     Args:
         comment (list): A clean list of words.
             See the function clean_comment.
@@ -231,7 +234,7 @@ def create_mask(filename):
 
     Args:
         filename (str or None): The name of the file to create a mask with.
-            If None, returns None
+            If None, returns None.
 
     Returns:
         :obj:`np.array` or None: An array defining the shape of the image.
@@ -250,10 +253,7 @@ def show_wordcloud(wordcloud):
         wordcloud (:obj:`WordCloud`): A WordCloud object. See module wordcloud.
 
     Returns:
-        None
-
-    Side-effects:
-        Displays a plot.
+        None: Side effect is showing a plot on screen.
     """
     plt.imshow(wordcloud)
     plt.axis("off")
@@ -271,10 +271,8 @@ def save_wordcloud(wordcloud, filename="wordcloud.jpg", dirname="wordcloud"):
             Default is "wordcloud".
 
     Returns:
-        None
-
-    Side-effects:
-        Creates a file, and if dirname did not exist, creates dirname.
+        None: Side effect is creates a file, and if dirname did not exist, creates dirname.
+     
     """
     if not os.path.isdir(dirname):
         os.mkdir(dirname)
@@ -297,6 +295,8 @@ def generate_wordcloud(text, background_color="white", mask=None, max_words=500,
             the wordcloud from the text.
             Default is 500.
 
+    Returns:
+        None
     """
     mask = create_mask(mask)
     word_cloud = WordCloud(background_color=background_color,
