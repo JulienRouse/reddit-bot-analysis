@@ -28,10 +28,10 @@ def load_counter(filename="counter" + today_str(), dirname="save"):
     Returns an empty counter if filename doesnt exist.
 
     Args:
-        filename (str, optional): The name of the file to retrieve data from.
+        filename (:obj:`str`, optional): The name of the file to retrieve data from.
             Default is "counter" + today_str().
             today_str returns the date of today with the isoformat. i.e. "2016-11-22"
-        dirname (str, optional): The name of the dir to retrieve data from.
+        dirname (:obj:`str`, optional): The name of the dir to retrieve data from.
             Default is "save"
     Returns:
         :obj:`Counter`: The counter object retrieved from filename or an empty counter.
@@ -46,14 +46,14 @@ def save_counter(data, filename="counter" + today_str(), dirname="save"):
 
     Args:
         data (:obj:`Counter`): A counter object to shelve.
-        filename (str, optional): The name of the file where to shelve data to.
+        filename (:obj:`str`, optional): The name of the file where to shelve data to.
             Default is "counter".
             today_str returns the date of today with the isoformat. i.e. "2016-11-22"
-        dirname (str, optional): The name of the dir where to shelve data to.
+        dirname (:obj:`str`, optional): The name of the dir where to shelve data to.
             Default is "save"
 
     Returns:
-        None
+        None: Nothing.
     """
     with shelve.open(os.path.join(dirname, filename)) as database:
         database.update(data)
@@ -63,13 +63,13 @@ def load_data(filename="posts" + today_str(), dirname="save"):
     The dict contains data about Post objects retrieved from reddit.
 
     Args:
-        filename (str, optional): The name of the file to retrieve the data from.
+        filename (:obj:`str`, optional): The name of the file to retrieve the data from.
             Default is "posts" + today_str().
             today_str returns the date of today with the isoformat. i.e. "2016-11-22"
-        dirname (str, optional): The name of the dir to retrieve the data from.
+        dirname (:obj:`str`, optional): The name of the dir to retrieve the data from.
             Default is "save"
     Returns:
-        :obj:`dict`:
+        :obj:`dict`: Dictionary containing data about Post. 
     """
     if not os.path.isfile(os.path.join(dirname, filename)):
         data = search_reddit()
@@ -84,16 +84,16 @@ def save_data(data, filename="posts" + today_str(), dirname="save"):
 
     Args:
         data (:obj:`dict`): The dict to be shelved.
-            Keys are id(str) of posts objects, values are
+            Keys are id(:obj:`str`) of posts objects, values are
             posts objects
-        filename (str, optional): The name of the file where to sheve data to.
+        filename (:obj:`str`, optional): The name of the file where to sheve data to.
             Default is "posts" + today_str().
             today_str returns the date of today with the isoformat. i.e. "2016-11-22"
-        dirname (str, optional): The name of the dire where to whelve data to.
+        dirname (:obj:`str`, optional): The name of the dire where to whelve data to.
             Default is "save"
 
     Returns:
-        None
+        None: Nothing
     """
     with shelve.open(os.path.join(dirname, filename)) as database:
         database.update(data)
@@ -108,7 +108,8 @@ def clean_comment(comment, stopwords=None):
     The goal is to get a list of words that can be used for sentiment analysis.
 
     Args:
-        comment (str): A string to be cleaned.
+        comment (:obj:`str`): A string to be cleaned.
+
         stopwords (:obj:`list` of :obj:`str`, optional): A list of string to
         remove from the comment.
 
@@ -153,7 +154,7 @@ def search_reddit(subreddit="france", limit=100, category=HOT):
     Note:
         Can be quite long (few minutes to run with limit=100) so cache it with save_data.
     Args:
-        subreddit (str, optional): A string that designate an existing subreddit.
+        subreddit (:obj:`str`, optional): A string that designate an existing subreddit.
             Default is "france".
         limit (int, optional): Number of reddit posts to retrieve.
             Default is 100.
@@ -214,10 +215,10 @@ def extract_comment(data):
 
     Args:
         data (:obj:`dict`): The data to extract comment from.
-             The key/value pair is of type str/:obj:Post.
+             The key/value pair is of type :obj:`str`/:obj:Post.
 
     Returns:
-        str: A text composed of all the clean comment gathered in data.
+        :obj:`str`: A text composed of all the clean comment gathered in data.
     """
     res = []
     for post in data.values():
@@ -233,7 +234,7 @@ def create_mask(filename):
     Idea comes from https://github.com/amueller/word_cloud/blob/master/examples/masked.py
 
     Args:
-        filename (str or None): The name of the file to create a mask with.
+        filename (:obj:`str` or None): The name of the file to create a mask with.
             If None, returns None.
 
     Returns:
@@ -265,9 +266,9 @@ def save_wordcloud(wordcloud, filename="wordcloud.jpg", dirname="wordcloud"):
 
     Args:
         wordcloud (:obj:`WordCloud`): A WordCloud object. See module wordcloud.
-        filename (str, optional): The name to save the file to.
+        filename (:obj:`str`, optional): The name to save the file to.
             Default is "wordcloud.jpg".
-        dirname (str, optional): The name of the dir to save the file to.
+        dirname (:obj:`str`, optional): The name of the dir to save the file to.
             Default is "wordcloud".
 
     Returns:
@@ -284,11 +285,11 @@ def generate_wordcloud(text, background_color="white", mask=None, max_words=500,
     """ Create and save a wordcloud.
 
     Args:
-        text (str): A text to makes a wordcloud from.
-        background_color (str, optional): The string represents known color to matplolib.
+        text (:obj:`str`): A text to makes a wordcloud from.
+        background_color (:obj:`str`, optional): The string represents known color to matplolib.
             Define the background color of the wordcloud.
             Default is "white".
-        mask (str or None, optional): The name of the file to create the mask
+        mask (:obj:`str` or None, optional): The name of the file to create the mask
             to apply to the wordcloud if you want it to not be a rectangle or None for no mask.
             Default is None.
         max_words (int, optional): Maximum of words to consider when creating
