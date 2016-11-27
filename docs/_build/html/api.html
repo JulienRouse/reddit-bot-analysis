@@ -54,15 +54,21 @@ Notably remove punctuation, numbers in the string, url,
 and various little french and english words.</p>
 <p>To get thoses words, see french_stopwords in Model.py</p>
 <p>The goal is to get a list of words that can be used for sentiment analysis.
-Args:</p>
-<blockquote>
-<div>comment (str): A string to be cleaned.
-stopwords (<code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal"><span class="pre">str</span></code>, optional): A list of string to
-remove from the comment.</div></blockquote>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd><code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal"><span class="pre">str</span></code>: List of clean words.</dd>
-</dl>
+:param comment: A string to be cleaned.
+:type comment: str
+:param stopwords: A list of string to
+:type stopwords: <code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal"><span class="pre">str</span></code>, optional
+:param remove from the comment.:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of clean words.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">list</span></code> of <code class="xref py py-obj docutils literal"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -70,20 +76,23 @@ remove from the comment.</div></blockquote>
 <code class="descclassname">karma_breakdown.</code><code class="descname">create_mask</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.create_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a mask from an image
 Idea comes from <a class="reference external" href="https://github.com/amueller/word_cloud/blob/master/examples/masked.py">https://github.com/amueller/word_cloud/blob/master/examples/masked.py</a></p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>filename (str or None): The name of the file to create a mask with.</dt>
-<dd>If None, returns None</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">np.array</span></code> or None: An array defining the shape of the image.</dt>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str or None</em>) &#8211; The name of the file to create a mask with.
+If None, returns None</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>An array defining the shape of the image.</dt>
 <dd>Or None is filename=None.</dd>
 </dl>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-obj docutils literal"><span class="pre">np.array</span></code> or None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -91,39 +100,45 @@ Idea comes from <a class="reference external" href="https://github.com/amueller/
 <code class="descclassname">karma_breakdown.</code><code class="descname">extract_comment</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.extract_comment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a dict of Post and returns the concatenation of all the comment
 of the Posts cleaned into a string</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>data (<code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>): The data to extract comment from.</dt>
-<dd>The key/value pair is of type str/:obj:Post.</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>str: A text composed of all the clean comment gathered in data.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>) &#8211; The data to extract comment from.
+The key/value pair is of type str/:obj:Post.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A text composed of all the clean comment gathered in data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="karma_breakdown.generate_wordcloud">
 <code class="descclassname">karma_breakdown.</code><code class="descname">generate_wordcloud</code><span class="sig-paren">(</span><em>text</em>, <em>background_color='white'</em>, <em>mask=None</em>, <em>max_words=500</em>, <em>savefilename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.generate_wordcloud" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create and save a wordcloud.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><p class="first">text (str): A text to makes a wordcloud from.
-background_color (str, optional): The string represents known color to matplolib.</p>
-<blockquote>
-<div>Define the background color of the wordcloud.
-Default is &#8220;white&#8221;.</div></blockquote>
-<dl class="last docutils">
-<dt>mask (str or None, optional): The name of the file to create the mask</dt>
-<dd>to apply to the wordcloud if you want it to not be a rectangle or None for no mask.
-Default is None.</dd>
-<dt>max_words (int, optional): Maximum of words to consider when creating</dt>
-<dd>the wordcloud from the text.
-Default is 500.</dd>
-</dl>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> (<em>str</em>) &#8211; A text to makes a wordcloud from.</li>
+<li><strong>background_color</strong> (<em>str, optional</em>) &#8211; The string represents known color to matplolib.
+Define the background color of the wordcloud.
+Default is &#8220;white&#8221;.</li>
+<li><strong>mask</strong> (<em>str or None, optional</em>) &#8211; The name of the file to create the mask
+to apply to the wordcloud if you want it to not be a rectangle or None for no mask.
+Default is None.</li>
+<li><strong>max_words</strong> (<em>int, optional</em>) &#8211; Maximum of words to consider when creating
+the wordcloud from the text.
+Default is 500.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -131,19 +146,27 @@ Default is 500.</dd>
 <code class="descclassname">karma_breakdown.</code><code class="descname">load_counter</code><span class="sig-paren">(</span><em>filename='counter2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.load_counter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unshelve a counter from filename and returns it.
 Returns an empty counter if filename doesnt exist.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>filename (str, optional): The name of the file to retrieve data from.</dt>
-<dd>Default is &#8220;counter&#8221; + today_str().
-today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dd>
-<dt>dirname (str, optional): The name of the dir to retrieve data from.</dt>
-<dd>Default is &#8220;save&#8221;</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd><code class="xref py py-obj docutils literal"><span class="pre">Counter</span></code>: The counter object retrieved from filename or an empty counter.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>str, optional</em>) &#8211; The name of the file to retrieve data from.
+Default is &#8220;counter&#8221; + today_str().
+today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</li>
+<li><strong>dirname</strong> (<em>str, optional</em>) &#8211; The name of the dir to retrieve data from.
+Default is &#8220;save&#8221;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The counter object retrieved from filename or an empty counter.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-obj docutils literal"><span class="pre">Counter</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -151,19 +174,27 @@ today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#
 <code class="descclassname">karma_breakdown.</code><code class="descname">load_data</code><span class="sig-paren">(</span><em>filename='posts2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.load_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unshelve a dict from filename.
 The dict contains data about Post objects retrieved from reddit.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>filename (str, optional): The name of the file to retrieve the data from.</dt>
-<dd>Default is &#8220;posts&#8221; + today_str().
-today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dd>
-<dt>dirname (str, optional): The name of the dir to retrieve the data from.</dt>
-<dd>Default is &#8220;save&#8221;</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd><code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>:</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>filename</strong> (<em>str, optional</em>) &#8211; The name of the file to retrieve the data from.
+Default is &#8220;posts&#8221; + today_str().
+today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</li>
+<li><strong>dirname</strong> (<em>str, optional</em>) &#8211; The name of the dir to retrieve the data from.
+Default is &#8220;save&#8221;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-obj docutils literal"><span class="pre">dict</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -200,22 +231,27 @@ filename (str, optional): The name of the file where to shelve data to.</p>
 <dt id="karma_breakdown.save_data">
 <code class="descclassname">karma_breakdown.</code><code class="descname">save_data</code><span class="sig-paren">(</span><em>data</em>, <em>filename='posts2016-11-27'</em>, <em>dirname='save'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.save_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shelve data to filename</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>data (<code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>): The dict to be shelved.</dt>
-<dd>Keys are id(str) of posts objects, values are
-posts objects</dd>
-<dt>filename (str, optional): The name of the file where to sheve data to.</dt>
-<dd>Default is &#8220;posts&#8221; + today_str().
-today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</dd>
-<dt>dirname (str, optional): The name of the dire where to whelve data to.</dt>
-<dd>Default is &#8220;save&#8221;</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>None</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>) &#8211; The dict to be shelved.
+Keys are id(str) of posts objects, values are
+posts objects</li>
+<li><strong>filename</strong> (<em>str, optional</em>) &#8211; The name of the file where to sheve data to.
+Default is &#8220;posts&#8221; + today_str().
+today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#8221;</li>
+<li><strong>dirname</strong> (<em>str, optional</em>) &#8211; The name of the dire where to whelve data to.
+Default is &#8220;save&#8221;</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -223,19 +259,25 @@ today_str returns the date of today with the isoformat. i.e. &#8220;2016-11-22&#
 <code class="descclassname">karma_breakdown.</code><code class="descname">save_wordcloud</code><span class="sig-paren">(</span><em>wordcloud</em>, <em>filename='wordcloud.jpg'</em>, <em>dirname='wordcloud'</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.save_wordcloud" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a plot with wordcloud and save it in dirname/filename
 Also creates dirname if not found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>wordcloud</strong> (<code class="xref py py-obj docutils literal"><span class="pre">WordCloud</span></code>) &#8211; A WordCloud object. See module wordcloud.</li>
+<li><strong>filename</strong> (<em>str, optional</em>) &#8211; The name to save the file to.
+Default is &#8220;wordcloud.jpg&#8221;.</li>
+<li><strong>dirname</strong> (<em>str, optional</em>) &#8211; The name of the dir to save the file to.
+Default is &#8220;wordcloud&#8221;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">None</p>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="docutils">
-<dt>Args:</dt>
-<dd><p class="first">wordcloud (<code class="xref py py-obj docutils literal"><span class="pre">WordCloud</span></code>): A WordCloud object. See module wordcloud.
-filename (str, optional): The name to save the file to.</p>
-<blockquote>
-<div>Default is &#8220;wordcloud.jpg&#8221;.</div></blockquote>
-<dl class="last docutils">
-<dt>dirname (str, optional): The name of the dir to save the file to.</dt>
-<dd>Default is &#8220;wordcloud&#8221;.</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>None</dd>
 <dt>Side-effects:</dt>
 <dd>Creates a file, and if dirname did not exist, creates dirname.</dd>
 </dl>
@@ -245,40 +287,53 @@ filename (str, optional): The name to save the file to.</p>
 <dt id="karma_breakdown.search_reddit">
 <code class="descclassname">karma_breakdown.</code><code class="descname">search_reddit</code><span class="sig-paren">(</span><em>subreddit='france'</em>, <em>limit=100</em>, <em>category=1</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.search_reddit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Connect to reddit and gather posts from a subreddit.
-Note:</p>
-<blockquote>
-<div>Can be quite long (few minutes to run with limit=100) so cache it with save_data.</div></blockquote>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>subreddit (str, optional): A string that designate an existing subreddit.</dt>
-<dd>Default is &#8220;france&#8221;.</dd>
-<dt>limit (int, optional): Number of reddit posts to retrieve.</dt>
-<dd>Default is 100.</dd>
-<dt>category (int, optional): Either HOT or TOP. Those constants are defined in model.py.</dt>
-<dd>They determine if you gather post from the TOP (best posts ever)
+.. note:: Can be quite long (few minutes to run with limit=100) so cache it with save_data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>subreddit</strong> (<em>str, optional</em>) &#8211; A string that designate an existing subreddit.
+Default is &#8220;france&#8221;.</li>
+<li><strong>limit</strong> (<em>int, optional</em>) &#8211; Number of reddit posts to retrieve.
+Default is 100.</li>
+<li><strong>category</strong> (<em>int, optional</em>) &#8211; Either HOT or TOP. Those constants are defined in model.py.
+They determine if you gather post from the TOP (best posts ever)
 or HOT (newest posts) category.
-Default is HOT</dd>
-</dl>
+Default is HOT</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><dl class="docutils">
+<dt>Return a dict of posts gathered. With key being the id of the post and value</dt>
+<dd><p class="first last">being the posts themselves.</p>
 </dd>
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt><code class="xref py py-obj docutils literal"><span class="pre">dict</span></code>: Return a dict of posts gathered. With key being the id of the post and value</dt>
-<dd>being the posts themselves.</dd>
 </dl>
-</dd>
-</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-obj docutils literal"><span class="pre">dict</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="karma_breakdown.show_wordcloud">
 <code class="descclassname">karma_breakdown.</code><code class="descname">show_wordcloud</code><span class="sig-paren">(</span><em>wordcloud</em><span class="sig-paren">)</span><a class="headerlink" href="#karma_breakdown.show_wordcloud" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a plot with wordcloud and displays it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>wordcloud</strong> (<code class="xref py py-obj docutils literal"><span class="pre">WordCloud</span></code>) &#8211; A WordCloud object. See module wordcloud.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 <dl class="docutils">
-<dt>Args:</dt>
-<dd>wordcloud (<code class="xref py py-obj docutils literal"><span class="pre">WordCloud</span></code>): A WordCloud object. See module wordcloud.</dd>
-<dt>Returns:</dt>
-<dd>None</dd>
 <dt>Side-effects:</dt>
 <dd>Displays a plot.</dd>
 </dl>
@@ -296,21 +351,23 @@ Default is HOT</dd>
 <dd><p>Takes a clean comment and count words.
 It adds up to previous count.
 Also updates the shelve/pickle with the new count.
-Args:</p>
+:param comment: A clean list of words.</p>
 <blockquote>
-<div><dl class="docutils">
-<dt>comment (list): A clean list of words.</dt>
-<dd>See the function clean_comment.</dd>
-</dl>
-</div></blockquote>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>Counter: A counter object, retrived with the function load_counter and</dt>
+<div>See the function clean_comment.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>A counter object, retrived with the function load_counter and</dt>
 <dd>updated with comment.</dd>
 </dl>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Counter</td>
+</tr>
+</tbody>
+</table>
 <p>See the functions clean_comment, load_counter and save_couter.</p>
 </dd></dl>
 
