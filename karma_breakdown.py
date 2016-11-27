@@ -1,74 +1,85 @@
-"""A reddit bot that survey /r/france for various analysis"""
-
-# IMPORTANT
-# When using in a REPL,
-# either:
-#    from filename import *
-# or
-#    from filename import Score, Post, Comment, ...
-#
-# If you dont, shelve/pickle will freak out cause it wont know the definition of those namedtuple.
-
+"""A reddit bot for various analysis"""
 #stdlib
-from pprint import pprint
+#from pprint import pprint
 from collections import Counter
+from datetime import date
 import shelve
 import string
+import os
 
 #3rd party lib
 from nltk.tokenize import WordPunctTokenizer
+from wordcloud import WordCloud
+from PIL import Image
 import praw
+import matplotlib.pyplot as plt
+import numpy as np
 
 #others project dependency
 from model import Post, Comment, Score, MY_STOPWORDS, HOT, TOP
 
+###############CODE############################################################
+def today_str():
+    """ The date of today in isoformat"""
+    return date.today().isoformat()
 
-def load_counter(filename="save_counter"):
+def load_counter(filename="counter" + today_str(), dirname="save"):
     """ Unshelve a counter from filename and returns it.
     Returns an empty counter if filename doesnt exist.
 
     Args:
         filename (str, optional): The name of the file to retrieve data from.
-            Default is "save_counter".
-
+            Default is "counter" + today_str().
+            today_str returns the date of today with the isoformat. i.e. "2016-11-22"
+        dirname (str, optional): The name of the dir to retrieve data from.
+            Default is "save"
     Returns:
         :obj:`Counter`: The counter object retrieved from filename or an empty counter.
     """
     res = Counter([])
-    with shelve.open(filename) as database:
+    with shelve.open(os.path.join(dirname, filename)) as database:
         res.update(database)
     return res
 
-def save_counter(data, filename="save_counter"):
+def save_counter(data, filename="counter" + today_str(), dirname="save"):
     """ Shelve data into filename.
 
     Args:
         data (:obj:`Counter`): A counter object to shelve.
-            filename (str, optional): The name of the file where to shelve data to.
-            Default is "save_counter".
+        filename (str, optional): The name of the file where to shelve data to.
+            Default is "counter".
+2            today_str returns the date of today with the isoformat. i.e. "2016-11-22"
+        dirname (str, optional): The name of the dir where to shelve data to.
+            Default is "save"
 
     Returns:
         None
     """
-    with shelve.open(filename) as database:
+    with shelve.open(os.path.join(dirname, filename)) as database:
         database.update(data)
 
-def load_data(filename="save_posts"):
+def load_data(filename="posts" + today_str(), dirname="save"):
     """ Unshelve a dict from filename.
     The dict contains data about Post objects retrieved from reddit.
 
     Args:
         filename (str, optional): The name of the file to retrieve the data from.
-            Default is "save_posts".
+            Default is "posts" + today_str().
+            today_str returns the date of today with the isoformat. i.e. "2016-11-22"
+        dirname (str, optional): The name of the dir to retrieve the data from.
+            Default is "save"
     Returns:
         :obj:`dict`:
     """
+    if not os.path.isfile(os.path.join(dirname, filename)):
+        data = search_reddit()
+        save_data(data, filename=filename, dirname=dirname)
     res = {}
-    with shelve.open(filename) as database:
+    with shelve.open(os.path.join(dirname, filename)) as database:
         res.update(database)
     return res
 
-def save_data(data, filename="save_posts"):
+def save_data(data, filename="posts" + today_str(), dirname="save"):
     """Shelve data to filename
 
     Args:
@@ -76,12 +87,15 @@ def save_data(data, filename="save_posts"):
             Keys are id(str) of posts objects, values are
             posts objects
         filename (str, optional): The name of the file where to sheve data to.
-            Default is "save_posts".
+            Default is "posts" + today_str().
+            today_str returns the date of today with the isoformat. i.e. "2016-11-22"
+        dirname (str, optional): The name of the dire where to whelve data to.
+            Default is "save"
 
     Returns:
         None
     """
-    with shelve.open(filename) as database:
+    with shelve.open(os.path.join(dirname, filename)) as database:
         database.update(data)
 
 def clean_comment(comment, stopwords=None):
@@ -92,14 +106,12 @@ def clean_comment(comment, stopwords=None):
     To get thoses words, see french_stopwords in Model.py
 
     The goal is to get a list of words that can be used for sentiment analysis.
-
     Args:
         comment (str): A string to be cleaned.
         stopwords (:obj:`list` of :obj:`str`, optional): A list of string to
         remove from the comment.
-
     Returns:
-        :obj:`list`: List of clean words.
+        :obj:`list` of :obj:`str`: List of clean words.
     """
     if stopwords is None:
         stopwords = MY_STOPWORDS
@@ -119,15 +131,12 @@ def words_count_update(comment):
     """ Takes a clean comment and count words.
     It adds up to previous count.
     Also updates the shelve/pickle with the new count.
-
     Args:
         comment (list): A clean list of words.
             See the function clean_comment.
-
     Returns:
         Counter: A counter object, retrived with the function load_counter and
             updated with comment.
-
     See the functions clean_comment, load_counter and save_couter.
     """
     counter_words = load_counter()
@@ -138,10 +147,8 @@ def words_count_update(comment):
 
 def search_reddit(subreddit="france", limit=100, category=HOT):
     """ Connect to reddit and gather posts from a subreddit.
-
     Note:
         Can be quite long (few minutes to run with limit=100) so cache it with save_data.
-
     Args:
         subreddit (str, optional): A string that designate an existing subreddit.
             Default is "france".
@@ -151,9 +158,8 @@ def search_reddit(subreddit="france", limit=100, category=HOT):
             They determine if you gather post from the TOP (best posts ever)
             or HOT (newest posts) category.
             Default is HOT
-
     Returns:
-        :obj:`Dict`: Return a dict of posts gathered. With key being the id of the post and value
+        :obj:`dict`: Return a dict of posts gathered. With key being the id of the post and value
             being the posts themselves.
     """
     user_agent = "Natural Language Processing:v0.1.0 (by /u/lughaidhdev)"
@@ -199,10 +205,113 @@ def search_reddit(subreddit="france", limit=100, category=HOT):
     words_count_update(word_count)
     return my_posts
 
+def extract_comment(data):
+    """ Takes a dict of Post and returns the concatenation of all the comment
+    of the Posts cleaned into a string
+
+    Args:
+        data (:obj:`dict`): The data to extract comment from.
+             The key/value pair is of type str/:obj:Post.
+
+    Returns:
+        str: A text composed of all the clean comment gathered in data.
+    """
+    res = []
+    for post in data.values():
+        for comment in post.comments:
+            res.insert(0, comment.clean_content)
+
+    res = [item for sublist in res for item in sublist]
+    text = " ".join(res)
+    return text
+
+def create_mask(filename):
+    """ Create a mask from an image
+    Idea comes from https://github.com/amueller/word_cloud/blob/master/examples/masked.py
+
+    Args:
+        filename (str or None): The name of the file to create a mask with.
+            If None, returns None
+
+    Returns:
+        :obj:`np.array` or None: An array defining the shape of the image.
+            Or None is filename=None.
+    """
+    if filename is None:
+        return None
+    directory = "img"
+    mask = np.array(Image.open(os.path.join(directory, filename)))
+    return mask
+
+def show_wordcloud(wordcloud):
+    """ Create a plot with wordcloud and displays it.
+
+    Args:
+        wordcloud (:obj:`WordCloud`): A WordCloud object. See module wordcloud.
+
+    Returns:
+        None
+
+    Side-effects:
+        Displays a plot.
+    """
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.show()
+
+def save_wordcloud(wordcloud, filename="wordcloud.jpg", dirname="wordcloud"):
+    """ Create a plot with wordcloud and save it in dirname/filename
+    Also creates dirname if not found.
+
+    Args:
+        wordcloud (:obj:`WordCloud`): A WordCloud object. See module wordcloud.
+        filename (str, optional): The name to save the file to.
+            Default is "wordcloud.jpg".
+        dirname (str, optional): The name of the dir to save the file to.
+            Default is "wordcloud".
+
+    Returns:
+        None
+
+    Side-effects:
+        Creates a file, and if dirname did not exist, creates dirname.
+    """
+    if not os.path.isdir(dirname):
+        os.mkdir(dirname)
+    plt.imshow(wordcloud)
+    plt.axis("off")
+    plt.savefig(dirname + os.sep + filename)
+
+def generate_wordcloud(text, background_color="white", mask=None, max_words=500, savefilename=None):
+    """ Create and save a wordcloud.
+
+    Args:
+        text (str): A text to makes a wordcloud from.
+        background_color (str, optional): The string represents known color to matplolib.
+            Define the background color of the wordcloud.
+            Default is "white".
+        mask (str or None, optional): The name of the file to create the mask
+            to apply to the wordcloud if you want it to not be a rectangle or None for no mask.
+            Default is None.
+        max_words (int, optional): Maximum of words to consider when creating
+            the wordcloud from the text.
+            Default is 500.
+
+    """
+    mask = create_mask(mask)
+    word_cloud = WordCloud(background_color=background_color,
+                           max_words=max_words,
+                           mask=mask).generate(text)
+    save_wordcloud(word_cloud, filename=savefilename)
+
 if __name__ == "__main__":
     RES = search_reddit()
     save_data(RES)
 
-    COUNT = load_counter()
 
-    pprint(COUNT.most_common(200))
+    DATA = load_data()
+    TEXT = extract_comment(DATA)
+    FILE = "alice.jpg"
+    generate_wordcloud(TEXT, mask=FILE, savefilename=FILE)
+    #COUNT = load_counter()
+    #pprint(COUNT.most_common(200))
