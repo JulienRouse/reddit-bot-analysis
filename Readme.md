@@ -13,6 +13,8 @@ Done
   - count words appearence in the comments
 - presentation
   - wordcloud
+
+
 TODO
 
 - analysis:
