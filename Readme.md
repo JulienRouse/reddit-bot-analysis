@@ -1,8 +1,8 @@
-Work in progress (come back later)
+Work in progress 
 
 
-[Documentation](http://reddit-bot-analysis.readthedocs.io/en/latest/)
-
+[Documentation](http://reddit-bot-analysis.readthedocs.io/en/latest/) <- also a work in progress
+ 
 Use Python3 + praw + nltk.
 
 Done
@@ -11,7 +11,8 @@ Done
   - store those posts in memory with shelve
 - analysis:
   - count words appearence in the comments
-
+- presentation
+  - wordcloud
 TODO
 
 - analysis:

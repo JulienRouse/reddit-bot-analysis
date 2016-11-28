@@ -1,8 +1,8 @@
 """A reddit bot for various analysis"""
 #stdlib
-#from pprint import pprint
 from collections import Counter
 from datetime import date
+from re import sub, compile
 import shelve
 import string
 import os
@@ -69,7 +69,7 @@ def load_data(filename="posts" + today_str(), dirname="save"):
         dirname (:obj:`str`, optional): The name of the dir to retrieve the data from.
             Default is "save"
     Returns:
-        :obj:`dict`: Dictionary containing data about Post. 
+        :obj:`dict`: Dictionary containing data about Post.
     """
     if not os.path.isfile(os.path.join(dirname, filename)):
         data = search_reddit()
@@ -115,15 +115,22 @@ def clean_comment(comment, stopwords=None):
     Returns:
         :obj:`list` of :obj:`str`: List of clean words.
     """
+    #to remove url. Match http://url.com, url.com, url.fr
+    pattern = compile(r'http[s]://\w*\.\w{2,3}|\w*\.\w{2,3}')
+    new_comment = pattern.sub("", comment)
+
+    stop_words = None
     if stopwords is None:
-        stopwords = MY_STOPWORDS
+        stop_words = MY_STOPWORDS
     tokenizer = WordPunctTokenizer()
-    tokens = tokenizer.tokenize(comment)
+    tokens = tokenizer.tokenize(new_comment)
     res = []
 
     for token in tokens:
+        if len(token) < 4:
+            continue
         token_low = token.lower()
-        if (token_low not in stopwords and
+        if (token_low not in stop_words and
                 token_low not in string.punctuation and
                 not token_low.isdigit()):
             res.insert(0, token_low)
@@ -200,11 +207,11 @@ def search_reddit(subreddit="france", limit=100, category=HOT):
                 if comment.body == "[deleted]" or comment.body == "[removed]":
                     pass
                 else:
-                    word_count.update(clean_comment(comment.body))
-                    #words_count(clean_comment(comment.body))
+                    cleancomment = clean_comment(comment.body)
+                    word_count.update(cleancomment)
                     tmp_comment = Comment(id=comment.id,
                                           content=comment.body,
-                                          clean_content=clean_comment(comment.body),
+                                          clean_content=cleancomment,
                                           author=comment.author.name,
                                           score=Score(total=comment.score,
                                                       ups=comment.ups,
@@ -278,7 +285,6 @@ def save_wordcloud(wordcloud, filename="wordcloud.jpg", dirname="wordcloud"):
 
     Returns:
         None: Side effect is creates a file, and if dirname did not exist, creates dirname.
-     
     """
     if not os.path.isdir(dirname):
         os.mkdir(dirname)
@@ -319,5 +325,7 @@ if __name__ == "__main__":
     TEXT = extract_comment(DATA)
     FILE = "alice.jpg"
     generate_wordcloud(TEXT, mask=FILE, savefilename=FILE)
-    #COUNT = load_counter()
-    #pprint(COUNT.most_common(200))
+
+    COUNT = load_counter()
+    from pprint import pprint
+    pprint(COUNT.most_common(200))

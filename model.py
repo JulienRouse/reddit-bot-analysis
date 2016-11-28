@@ -1,6 +1,5 @@
-""" Defines constants and namedtuple definitions"""
+""" Defines constants and namedtuple."""
 from collections import namedtuple
-
 #from nltk.corpus import stopwords
 
 #Enum for category
@@ -13,15 +12,17 @@ Post = namedtuple("Post", "id, title, author, comments, score")
 Comment = namedtuple("Comment", "id, content, clean_content, author, score")
 
 # loading french's stopwords an adding some more to fit into /r/france
-FR = ["les", "si", "à", "a", "ils", "elles", "nous",
-      "vous", "’", "ça", "là", "ca", "cela", "cette",
-      "très", "comme", "quand", "être", "etre", "va",
-      "avoir", "vraiment", "sans", "dire", "faire",
-      "quoi", "tous", "leurs", "leur", "parce", "donc",
-      "vu", "où", "ou", "puis", "chaque", "tant", "déjà",
+FR = ["elles", "nous", "vous", "cela", "cette", "mais", "plus",
+      "très", "comme", "quand", "être", "etre", "avec", "fait",
+      "avoir", "vraiment", "sans", "dire", "faire", "sont",
+      "quoi", "tous", "leurs", "leur", "parce", "donc", "était",
+      "puis", "chaque", "tant", "déjà", "dans", "tout", 
       "dont", "mettre", "fais", "doit", "quel", "enfin",
-      "vers", "ceux", "veux", "quelle", "pendant", "ni",
-      "sait", "ah", "peu", "peux", "peut"]
+      "vers", "ceux", "veux", "quelle", "pendant", "même",
+      "sait", "peux", "peut", "pour", "beacoup", "aussi", "suis",
+      "toujours", "fois", "encore", "faut", "temps", "après",
+      "aller", "chez", "entre", "depuis", "sous", "vois", "surtout",
+      "toute"]
 """ :obj:`list` of :obj:`str`: French stopwords"""
 
 EN = ["of", "in", "to", "i", "is", "you", "a", "the",
@@ -35,7 +36,7 @@ EN = ["of", "in", "to", "i", "is", "you", "a", "the",
 
 URL = ["http", "https", "'", "...", "://", "com",
        "fr", "be", "www", ")[", "](", ").", "),", "org",
-       ".)[", ",)[", ".](", ",]("]
+       ".)[", ",)[", ".](", ",](", ":///"]
 """ :obj:`list` of :obj:`str`: Stopwords from url of weblinks"""
 
 REDDIT = ["r", "u", "v", '",', "~", "~~", '".', "**", "¤"]
