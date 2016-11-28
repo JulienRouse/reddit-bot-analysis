@@ -115,9 +115,14 @@ def clean_comment(comment, stopwords=None):
     Returns:
         :obj:`list` of :obj:`str`: List of clean words.
     """
-    #to remove url. Match http://url.com, url.com, url.fr
-    pattern = compile(r'http[s]://\w*\.\w{2,3}|\w*\.\w{2,3}')
-    new_comment = pattern.sub("", comment)
+    #to remove url
+    pat1 = compile(r'http(s)?://w{3}\.\w+\.\w{2,3}[a-zA-Z0-9?=&!.,;:\-_/\\]*')
+    pat2 = compile(r'^w{3}\.\w+\.\w{2,3}[a-zA-Z0-9?=&!.,;:\-_/\\]*')
+    pat3 = compile(r'^\w+\.\w{2,3}[a-zA-Z0-9?=&!.,;:\-_/\\]*')
+
+    new_comment = pat1.sub("", comment)
+    new_comment = pat2.sub("", new_comment)
+    new_comment = pat3.sub("", new_comment)
 
     stop_words = None
     if stopwords is None:
