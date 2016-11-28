@@ -12,7 +12,7 @@ Done
 - analysis:
   - count words appearence in the comments
 - presentation
-  - wordcloud
+  - wordcloud ![noice](./wordcloud/alice.jpg)
 
 
 TODO
