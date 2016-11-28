@@ -122,6 +122,9 @@ def clean_comment(comment, stopwords=None):
     stop_words = None
     if stopwords is None:
         stop_words = MY_STOPWORDS
+    else:
+        stop_words = stopwords
+
     tokenizer = WordPunctTokenizer()
     tokens = tokenizer.tokenize(new_comment)
     res = []
@@ -317,15 +320,15 @@ def generate_wordcloud(text, background_color="white", mask=None, max_words=500,
     save_wordcloud(word_cloud, filename=savefilename)
 
 if __name__ == "__main__":
-    RES = search_reddit()
-    save_data(RES)
+    #RES = search_reddit()
+    #save_data(RES)
 
 
     DATA = load_data()
     TEXT = extract_comment(DATA)
     FILE = "alice.jpg"
+    #generate_wordcloud(TEXT, mask=None, savefilename=FILE)
     generate_wordcloud(TEXT, mask=FILE, savefilename=FILE)
-
-    COUNT = load_counter()
-    from pprint import pprint
-    pprint(COUNT.most_common(200))
+    #COUNT = load_counter()
+    #from pprint import pprint
+    #pprint(COUNT.most_common(200))

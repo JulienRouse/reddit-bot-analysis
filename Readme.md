@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/reddit-bot-analysis/badge/)](http://reddit-bot-analysis.readthedocs.io/en/latest/)
+
 Work in progress 
 
 
