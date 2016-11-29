@@ -9,6 +9,7 @@ def teardown_func():
     "tear down test fixtures"
     pass
 
+###############today_str########################################################
 def today_str_test():
     """Test for today_str.
     The test is a bit pointless."""
@@ -88,3 +89,4 @@ def clean_comment_test_stopwords_as_parameters():
     expected = ["whose", "temps", "elles"]
     assert(expected == clean_comment(text, param))
 
+############### ################################################################
