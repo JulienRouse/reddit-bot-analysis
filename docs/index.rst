@@ -47,6 +47,7 @@ Contents:
    
    install
    api
+   roadmap
    
 
 Indices and tables

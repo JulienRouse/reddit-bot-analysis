@@ -2,7 +2,6 @@
 
 Work in progress 
 
-
 [Documentation](http://reddit-bot-analysis.readthedocs.io/en/latest/) <- also a work in progress
  
 Use Python3 + praw + nltk.
