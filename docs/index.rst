@@ -35,6 +35,7 @@ Skills that I learned or practiced doing so (and the associated library if relev
 - Writing in english. I did publish a few blog posts about this project, writing a little bit more than 3000 words in the process. That's a lot for me and it's helping me improve.
 
 Skills that I hope to learn/practice soon:
+
 - Sentiment analysis (nltk probably)
 - ?? 
 
