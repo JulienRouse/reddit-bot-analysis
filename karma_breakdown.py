@@ -331,9 +331,12 @@ if __name__ == "__main__":
 
     DATA = load_data()
     TEXT = extract_comment(DATA)
-    FILE = "alice.jpg"
+    EXTENSION = ".jpg"
+    NAME = "alice"
+    FILE_MASK = NAME + EXTENSION
+    FILE_OUTPUT = NAME + today_str() + EXTENSION
     #generate_wordcloud(TEXT, mask=None, savefilename=FILE)
-    generate_wordcloud(TEXT, mask=FILE, savefilename=FILE)
+    generate_wordcloud(TEXT, mask=FILE_MASK, savefilename=FILE_OUTPUT)
     #COUNT = load_counter()
     #from pprint import pprint
     #pprint(COUNT.most_common(200))
