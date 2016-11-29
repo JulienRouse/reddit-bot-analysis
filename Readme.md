@@ -1,4 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/reddit-bot-analysis/badge/)](http://reddit-bot-analysis.readthedocs.io/en/latest/)
+[![Github tag](https://img.shields.io/github/tag/JulienRouse/reddit-bot-analysis.svg)](https://github.com/JulienRouse/reddit-bot-analysis/tree/v0.2.0)
 
 Work in progress 
 
