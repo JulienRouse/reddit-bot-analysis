@@ -6,6 +6,7 @@ from re import sub, compile
 import shelve
 import string
 import os
+import argparse
 
 #3rd party lib
 from nltk.tokenize import WordPunctTokenizer
@@ -322,9 +323,42 @@ def generate_wordcloud(text, background_color="white", mask=None, max_words=500,
     word_cloud = WordCloud(background_color=background_color,
                            max_words=max_words,
                            mask=mask).generate(text)
-    save_wordcloud(word_cloud, filename=savefilename)
+    _savefilename = savefilename
+    if savefilename is None:
+        _savefilename = "wordcloud" + today_str()
+    save_wordcloud(word_cloud, filename=_savefilename)
+
+def handle_arg():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--wordcloud",
+                        help=("Flag that indicates the generation of a wordcloud."
+                              "\nDefault behavior is equal to --wordcloud --mask-file None" 
+                              "--max-words 500 --output wordcloud --output-dir"),
+                        action="store_true")
+    parser.add_argument("--mask-file", 
+                        help=("A file to be used as a mask for wordcloud.\n"
+                        "Does nothing if --wordcloud is not specified."),
+                        type=str)
+    parser.add_argument("--max-words",
+                        help=("Maximum number of words to put into the wordcloud."
+                              "\nDoes nothing if --wordcloud is not specified"),
+                        type=int)
+    parser.add_argument("--wordcloud-output",
+                        help=("A filename that specify the name of the wordcloud to output."
+                              "\nDoes nothing if --wordcloud is not specified"),
+                        type=str)
+    parser.add_argument("--wordcloud-output-dir",
+                        help=("A dirname that specify the name of a directory to output wordcloud"
+                              "\nIf the directory did not exist, does not create it"
+                              "\nDoes nothing if --wordcloud is not specified"),
+                        type=str)
+                        
+    args = parser.parse_args()
+    return args
 
 if __name__ == "__main__":
+    args = handle_arg()
+
     #RES = search_reddit()
     #save_data(RES)
 
