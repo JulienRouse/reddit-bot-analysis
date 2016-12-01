@@ -1,5 +1,10 @@
-from karma_breakdown import *
+import string
+
 from nose import *
+from hypothesis import given, example, note, strategies as st
+from hypothesis.strategies import text, lists
+
+from karma_breakdown import *
 
 def setup_func():
     "set up test fixtures"
@@ -89,4 +94,19 @@ def clean_comment_test_stopwords_as_parameters():
     expected = ["whose", "temps", "elles"]
     assert(expected == clean_comment(text, param))
 
+
+alphabet = string.ascii_lowercase + string.digits + " "
+
+@given(text(alphabet=alphabet, average_size=200, min_size=50),
+       lists(elements=text(alphabet=alphabet, average_size=6, min_size=4),
+             average_size=50))
+@example("Hello everyone, do you like Hypothesis", ["hello", "like"])
+def clean_comment_test_hypothesis(text, stopwords):
+    """Trying hypothesis"""
+    for el in clean_comment(text, stopwords):
+        note("Text: %s, Stopwords: %s" % (el, stopwords))
+        assert(el not in stopwords)
+        assert(el not in string.punctuation)
+        assert(len(el) >= 4)
+        
 ############### ################################################################
