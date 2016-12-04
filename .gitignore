@@ -9,3 +9,5 @@ profile*
 .coverage
 save
 wordcloud
+praw.ini
+.hypothesis
