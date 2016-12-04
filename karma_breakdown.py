@@ -188,13 +188,13 @@ def search_reddit(subreddit="france", limit=100, category=HOT):
         being the posts themselves.
     """
     user_agent = "Natural Language Processing:v0.1.0 (by /u/lughaidhdev)"
-    reddit = praw.Reddit(user_agent=user_agent)
-    subreddit_obj = reddit.get_subreddit(subreddit)
+    reddit = praw.Reddit("bot1", user_agent=user_agent)
+    subreddit_obj = reddit.subreddit(subreddit)
     posts = None
     if category == HOT:
-        posts = subreddit_obj.get_hot(limit=limit)
+        posts = subreddit_obj.hot(limit=limit)
     elif category == TOP:
-        posts = subreddit_obj.get_top(limit=limit)
+        posts = subreddit_obj.top(limit=limit)
     else:
         print("ERROR: category must be either HOT or TOP, not ", category)
         return {}
@@ -209,23 +209,21 @@ def search_reddit(subreddit="france", limit=100, category=HOT):
                         score=Score(total=post.score,
                                     ups=post.ups,
                                     downs=post.downs))
-        for comment in thread:
-            if isinstance(comment, praw.objects.MoreComments):
+        thread.replace_more(limit=0)
+        for comment in thread.list():
+            if comment.body == "[deleted]" or comment.body == "[removed]":
                 pass
             else:
-                if comment.body == "[deleted]" or comment.body == "[removed]":
-                    pass
-                else:
-                    cleancomment = clean_comment(comment.body)
-                    word_count.update(cleancomment)
-                    tmp_comment = Comment(id=comment.id,
-                                          content=comment.body,
-                                          clean_content=cleancomment,
-                                          author=comment.author.name,
-                                          score=Score(total=comment.score,
-                                                      ups=comment.ups,
-                                                      downs=comment.downs))
-                    tmp_post.comments.insert(0, tmp_comment)
+                cleancomment = clean_comment(comment.body)
+                word_count.update(cleancomment)
+                tmp_comment = Comment(id=comment.id,
+                                      content=comment.body,
+                                      clean_content=cleancomment,
+                                      author=comment.author.name,
+                                      score=Score(total=comment.score,
+                                                  ups=comment.ups,
+                                                  downs=comment.downs))
+                tmp_post.comments.insert(0, tmp_comment)
         my_posts[post.id] = tmp_post
     words_count_update(word_count)
     return my_posts
@@ -330,7 +328,7 @@ def generate_wordcloud(text, background_color="white", mask=None, max_words=500,
 
 def handle_arg():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--wordcloud",
+    parser.add_argument("-w", "--wordcloud",
                         help=("Flag that indicates the generation of a wordcloud."
                               "\nDefault behavior is equal to --wordcloud --mask-file None" 
                               "--max-words 500 --output wordcloud --output-dir"),
@@ -357,7 +355,7 @@ def handle_arg():
     return args
 
 if __name__ == "__main__":
-    args = handle_arg()
+    #args = handle_arg()
 
     #RES = search_reddit()
     #save_data(RES)
@@ -371,6 +369,6 @@ if __name__ == "__main__":
     FILE_OUTPUT = NAME + today_str() + EXTENSION
     #generate_wordcloud(TEXT, mask=None, savefilename=FILE)
     generate_wordcloud(TEXT, mask=FILE_MASK, savefilename=FILE_OUTPUT)
-    #COUNT = load_counter()
-    #from pprint import pprint
-    #pprint(COUNT.most_common(200))
+    COUNT = load_counter()
+    from pprint import pprint
+    pprint(COUNT.most_common(200))
