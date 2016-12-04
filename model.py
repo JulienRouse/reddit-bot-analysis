@@ -22,7 +22,7 @@ FR = ["elles", "nous", "vous", "cela", "cette", "mais", "plus",
       "sait", "peux", "peut", "pour", "beacoup", "aussi", "suis",
       "toujours", "fois", "encore", "faut", "temps", "après",
       "aller", "chez", "entre", "depuis", "sous", "vois", "surtout",
-      "toute", "elle", "alors", "soit", "un", "deux", "trois]
+      "toute", "elle", "alors", "soit", "un", "deux", "trois"]
 """ :obj:`list` of :obj:`str`: French stopwords"""
 
 EN = ["of", "in", "to", "i", "is", "you", "a", "the",
